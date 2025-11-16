@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import * as exploreController from '../controllers/explore.controller.js';
+import {
+  getTrendingPins,
+  getRandomPins,
+  getTopCreators,
+} from '../controllers/exploreController.js';
 
 const router = Router();
 
-// Get trending pins
-router.get('/trending', exploreController.getTrending);
-
-// Get random pins
-router.get('/random', exploreController.getRandom);
+router.get('/trending', getTrendingPins);
+router.get('/random', getRandomPins);
+router.get('/top-creators', getTopCreators);
 
 export default router;
