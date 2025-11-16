@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.Routes.js';
 import userRoutes from './routes/user.routes.js';
 import pinRoutes from './routes/pin.routes.js';
-// import boardRoutes from './routes/board.routes.js';
+import boardRoutes from './routes/board.routes.js';
 import exploreRoutes from './routes/explore.routes.js';
 import errorHandler from './middlewares/errorHndler.js';
 
@@ -48,7 +48,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/pins', pinRoutes);
-// app.use('/api/boards', boardRoutes);
+app.use('/api/boards', boardRoutes);
 app.use('/api/explore', exploreRoutes);
 
 // 404 handler
