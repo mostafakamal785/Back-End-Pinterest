@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-
+import mongoose from 'mongoose';
 const boardSchema = new mongoose.Schema({
      name: { type: String, required: true },
     description: { type: String, default: "" },
@@ -8,5 +7,4 @@ const boardSchema = new mongoose.Schema({
     keywords: { type: [String], default: [] },
     privacy: { type: String, enum: ["public", "private"], default: "public" }
 })
-
-module.exports = mongoose.model("Board", boardSchema);
+export default mongoose.model('Board', boardSchema);

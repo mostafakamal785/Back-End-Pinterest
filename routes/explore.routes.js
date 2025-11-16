@@ -3,7 +3,7 @@ import {
   getTrendingPins,
   getRandomPins,
   getTopCreators,
-} from '../controllers/exploreController.js';
+} from '../controllers/explore.controller.js';
 
 const router = Router();
 

@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-
-pinSchema = new mongoose.Schema({
+import mongoose from "mongoose";
+const pinSchema = new mongoose.Schema({
     title:{type:String , required:true},
     description:{type:String , required:true},
     link:{type:String , default:null},
@@ -27,4 +26,4 @@ pinSchema.virtual('likeCount').get(function () {
   return Array.isArray(this.likers) ? this.likers.length : 0;
 });
 
-module.exports = mongoose.model("Pin", pinSchema);
+export default mongoose.model('Pin', pinSchema);

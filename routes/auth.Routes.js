@@ -1,9 +1,9 @@
 import * as authController from '../controllers/auth.Controller.js';
-import e, { Router } from 'express';
+import { Router } from 'express';
 import { body, param, query } from 'express-validator';
 import handleValidate from '../middlewares/handleValidate.js';
 import errorMessage from '../utils/errors.js';
-import User from '../models/User.Model.js';
+import User from '../models/users.model.js';
 const router = Router();
 
 router.post(
