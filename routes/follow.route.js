@@ -1,18 +1,17 @@
-const express = require('express');
+import express from "express";
+import {
+    follow,
+    getFollowers,
+    getFollowing,
+} from "../controllers/follow.controller.js";
+import { verifytoken } from "../middleware/authMiddleware.js";
+
 
 const router = express.Router();
-const followController = require("../controllers/follow.controller.js");
-const { verifytoken } = require("../middleware/authMiddleware.js");
 
+router.post("/:id/follow", verifytoken, follow);
+router.get("/:id/followers", verifytoken, getFollowers);
 
+router.get("/:id/following", verifytoken,getFollowing);
 
-router.post("/:id/follow", verifytoken, followController.follow);
-router.get("/:id/followers", verifytoken, followController.getFollowers);
-
-router.get("/:id/following", verifytoken, followController.getFollowing);
-
-
-
-
-
-module.exports = router;
+export default router;

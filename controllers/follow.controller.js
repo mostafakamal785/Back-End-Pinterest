@@ -1,75 +1,66 @@
-const Follow = require("../models/Follow.js");
-const User = require("../models/User.js");
+import Follow from "../models/Follow.js";
 
+export const follow = async (req, res, next) => {
+  const followerId = req.user.id;
+  const followeingId = req.params.id;
 
-const follow =async (req, res, next) => {
-    const followerId = req.user.id;
-    const followeingId = req.params.id;
-    
-    const exists = await Follow.findOne({
-        follower: followerId,
-        following: followeingId
+  const exists = await Follow.findOne({
+    follower: followerId,
+    following: followeingId,
+  });
+
+  if (exists) {
+    await Follow.findByIdAndDelete(exists._id);
+
+    return res.status(200).json({
+      message: "Unfollowed successfully",
     });
+  }
 
-    if (exists) {
-        await Follow.findByIdAndDelete(exists._id);
+  const newFollow = new Follow({
+    follower: followerId,
+    following: followeingId,
+  });
 
-        return res.status(200).json({
-            message: "Unfollowed successfully",
-        });
-    }
+  await newFollow.save();
 
+  res.status(200).json({
+    message: "Followed successfully",
+  });
+};
 
-        const newFollow = new Follow({
-            follower: followerId,
-            following: followeingId
-        });
+export const getFollowers = async (req, res) => {
+  try {
+    const userId = req.params.id;
 
-    await newFollow.save();
+    const followers = await Follow.find({ following: userId }).populate(
+      "follower",
+      "username profilePicture"
+    );
 
     res.status(200).json({
-        message: "Followed successfully",
+      count: followers.length,
+      followers,
     });
-
-}
-
-
-const getFollowers = async (req, res) => {
-    try {
-        const userId = req.params.id;
-
-        const followers = await Follow.find({ following: userId }).populate(
-            "follower",
-            "username profilePicture"
-        );
-
-        res.status(200).json({
-            count: followers.length,
-            followers,
-        });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-const getFollowing = async (req, res) => {
-    try {
-        const userId = req.params.id;
+export const getFollowing = async (req, res) => {
+  try {
+    const userId = req.params.id;
 
-        const following  = await Follow.find({ follower: userId }).populate(
-            "following",
-            "username profilePicture"
-        );
+    const following = await Follow.find({ follower: userId }).populate(
+      "following",
+      "username profilePicture"
+    );
 
-        res.status(200).json({
-            count: following.length,
-            following,
-        });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+    res.status(200).json({
+      count: following.length,
+      following,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
-
-
-
-module.exports={follow,getFollowers,getFollowing}
