@@ -12,7 +12,7 @@ import userRoutes from './routes/user.routes.js';
 import pinRoutes from './routes/pin.routes.js';
 import boardRoutes from './routes/board.routes.js';
 import exploreRoutes from './routes/explore.routes.js';
-import errorHandler from './middlewares/errorHndler.js';
+import errorHandler from './middleware/errorHndler.js';
 
 // Initialize dotenv
 dotenv.config();
@@ -26,6 +26,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(cookieParser());
 app.use(
   cors({

@@ -12,13 +12,15 @@ const pinSchema = new mongoose.Schema(
       thumbnail: { type: String, default: null },
     },
 
-    publisher: {
+    // غيرت من publisher إلى owner
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
 
-    boardId: {
+    // غيرت من boardId إلى board
+    board: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Board',
       required: true,

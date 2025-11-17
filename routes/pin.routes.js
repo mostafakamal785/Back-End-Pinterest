@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as pinController from '../controllers/pin.controller.js';
-import authenticateToken from '../middlewares/authenticate.js';
+import authenticateToken from '../middleware/authenticate.js';
 
 const router = Router();
 
