@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 
 
 // Import routes
-import authRoutes from './routes/auth.Routes.js';
+// import authRoutes from './routes/auth.Routes.js';
 import userRoutes from './routes/user.routes.js';
 import pinRoutes from './routes/pin.routes.js';
 import boardRoutes from './routes/board.routes.js';
@@ -45,7 +45,7 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.use('/api/auth', authRoutes);
+// app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/pins', pinRoutes);
 app.use('/api/boards', boardRoutes);

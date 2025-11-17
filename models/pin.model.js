@@ -2,22 +2,14 @@ import mongoose from 'mongoose';
 
 const pinSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    description: {
-      type: String,
-      default: '',
-    },
+    title: { type: String, required: true, trim: true },
+    description: { type: String, default: '' },
 
     media: {
-      uri: { type: String, required: true }, // Cloud/Local path
+      uri: { type: String, required: true },
       filename: { type: String, required: true },
       type: { type: String, enum: ['image', 'video'], default: 'image' },
-      thumbnail: { type: String, default: null }, // Optional (videos)
+      thumbnail: { type: String, default: null },
     },
 
     publisher: {
@@ -40,7 +32,6 @@ const pinSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Text index for Search
 pinSchema.index({
   title: 'text',
   description: 'text',
