@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import sendEmail from '../utils/sendEmail.js';
 import jwt from 'jsonwebtoken';
+import { successResponse } from '../utils/response.util.js';
 
 export const logInUser = async (req, res, next) => {
   try {
@@ -51,14 +52,13 @@ export const logInUser = async (req, res, next) => {
       sameSite: 'strict',
     });
 
-    res.status(200).json({
-      message: 'User logged in successfully',
+    successResponse(res, {
       user: {
         id: newUser._id,
         email: newUser.email,
         name: newUser.name,
       },
-    });
+    }, 'User logged in successfully');
   } catch (error) {
     next({
       status: 500,
@@ -98,14 +98,13 @@ export const registerUser = async (req, res, next) => {
 
     await sendEmail(newUser.email, 'Email Verification', message);
 
-    res.status(201).json({
-      message: 'User registered successfully. Please check your email to verify your account.',
+    successResponse(res, {
       user: {
         id: newUser._id,
         email: newUser.email,
         name: newUser.name,
       },
-    });
+    }, 'User registered successfully. Please check your email to verify your account.', 201);
   } catch (error) {
     next(error);
   }
@@ -127,7 +126,7 @@ export const verifyUser = async (req, res, next) => {
     user.verifyToken = null;
     await user.save();
 
-    res.status(200).json({ message: 'Email verified successfully. You can now log in.' });
+    successResponse(res, null, 'Email verified successfully. You can now log in.');
   } catch (error) {
     next({ status: 400, message: 'Invalid or expired verification token', field: 'token' });
   }
@@ -145,7 +144,7 @@ export const logoutUser = async (req, res, next) => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
     });
-    res.status(200).json({ message: 'Logged out successfully' });
+    successResponse(res, null, 'Logged out successfully');
   } catch (error) {
     next(error);
   }
@@ -176,7 +175,7 @@ export const forgotPassword = async (req, res, next) => {
 
     await sendEmail(user.email, 'Password Reset Request', message);
 
-    res.status(200).json({ message: 'Password reset email sent successfully' });
+    successResponse(res, null, 'Password reset email sent successfully');
   } catch (error) {
     next(error);
   }
@@ -208,7 +207,7 @@ export const resetPassword = async (req, res, next) => {
     user.resetCodeExp = null;
 
     await user.save();
-    res.status(200).json({ message: 'Password reset successful' });
+    successResponse(res, null, 'Password reset successful');
   } catch (error) {
     next(error);
   }

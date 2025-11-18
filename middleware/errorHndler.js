@@ -18,8 +18,8 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(status).json({
     success: false,
+    error: err.field || 'ServerError',
     message: isDevelopment ? message : 'Something went wrong',
-    field: err.field || null,
     ...(isDevelopment && { stack: err.stack }),
   });
 };

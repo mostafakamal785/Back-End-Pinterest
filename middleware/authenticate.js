@@ -7,8 +7,8 @@ const authMiddleware = async (req, res, next) => {
     const token = req.cookies['access-token'] || req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
-      return res.status(401).json({
-        success: false,
+      return next({
+        status: 401,
         message: 'Access token required',
       });
     }
@@ -17,8 +17,8 @@ const authMiddleware = async (req, res, next) => {
     const user = await User.findById(decoded.id).select('-password');
 
     if (!user) {
-      return res.status(401).json({
-        success: false,
+      return next({
+        status: 401,
         message: 'Invalid token',
       });
     }
@@ -26,8 +26,8 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
+    return next({
+      status: 401,
       message: 'Invalid or expired token',
     });
   }

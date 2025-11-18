@@ -6,14 +6,14 @@ export const successResponse = (res, data, message = 'Success', statusCode = 200
   });
 };
 
-export const errorResponse = (res, message = 'Error', statusCode = 400, errors = []) => {
+export const errorResponse = (res, error = 'Error', message = 'An error occurred', statusCode = 400) => {
   return res.status(statusCode).json({
     success: false,
+    error,
     message,
-    errors: errors.length > 0 ? errors : [message],
   });
 };
 
 export const validationError = (res, errors) => {
-  return errorResponse(res, 'Validation failed', 422, errors);
+  return errorResponse(res, 'ValidationError', 'Validation failed', 422);
 };
