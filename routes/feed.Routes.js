@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getHomeFeed } from '../controllers/feedController.js';
-import auth from '../middleware/authMiddleware.js';
+import { getHomeFeed } from '../controllers/feed.Controller.js';
+import authMiddleware from '../middleware/authenticate.js';
 
 const router = Router();
 
-router.get('/', auth, getHomeFeed);
+router.get('/', authMiddleware, getHomeFeed);
 
 export default router;
