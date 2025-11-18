@@ -23,7 +23,7 @@ const pinSchema = new mongoose.Schema(
     board: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Board',
-      required: true,
+      required: false,
     },
 
     keywords: {

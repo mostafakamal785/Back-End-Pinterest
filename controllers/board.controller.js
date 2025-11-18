@@ -327,3 +327,44 @@ export const getBoardsByPrivacy = async (req, res) => {
     return errorResponse(res, 'Failed to filter boards', 500);
   }
 };
+
+// 📌 GET ALL PUBLIC BOARDS (for explore page)
+export const getPublicBoards = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, category, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
+
+    let query = { privacy: 'public' };
+
+    // Filter by category/keywords
+    if (category) {
+      query.$or = [
+        { keywords: { $in: [new RegExp(category, 'i')] } },
+        { name: { $regex: category, $options: 'i' } },
+        { description: { $regex: category, $options: 'i' } },
+      ];
+    }
+
+    const sortOptions = {};
+    sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
+
+    const boards = await Board.find(query)
+      .populate('owner', 'username profilePicture name')
+      .sort(sortOptions)
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    const total = await Board.countDocuments(query);
+
+    return successResponse(res, {
+      boards,
+      pagination: {
+        current: parseInt(page),
+        pages: Math.ceil(total / limit),
+        total,
+      },
+    });
+  } catch (error) {
+    console.error('Get Public Boards Error:', error);
+    return errorResponse(res, 'Failed to fetch public boards', 500);
+  }
+};

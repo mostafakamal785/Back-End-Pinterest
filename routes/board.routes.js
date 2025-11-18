@@ -12,6 +12,11 @@ import * as boardController from '../controllers/board.controller.js';
 import  authMiddleware  from '../middleware/authenticate.js';
 
 const router = express.Router();
+
+// Public routes (no auth required)
+router.get('/public', boardController.getPublicBoards);
+
+// Protected routes
 router.use(authMiddleware);
 
 // BOARD CRUD

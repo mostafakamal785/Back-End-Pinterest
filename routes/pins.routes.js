@@ -2,13 +2,14 @@ import express from 'express';
 import * as pinsController from '../controllers/pins.controller.js';
 import authMiddleware from '../middleware/authenticate.js';
 import handleValidate from '../middleware/handleValidate.js';
+import { uploadSingle, handleUploadError } from '../middleware/uploadMiddleWare.js';
 import { createPinValidation, updatePinValidation, pinIdValidation } from '../validations/pins.validations.js';
 import { param, query } from 'express-validator';
 
 const router = express.Router();
 
 // 📌 PIN CRUD ROUTES
-router.post('/', authMiddleware, createPinValidation, handleValidate, pinsController.createPin);
+router.post('/', authMiddleware, uploadSingle('image'), handleUploadError, createPinValidation, handleValidate, pinsController.createPin);
 
 router.get(
   '/',

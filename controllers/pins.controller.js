@@ -20,15 +20,16 @@ export const createPin = async (req, res) => {
       }
     }
 
-    // Handle file upload (if implemented)
+    // Handle file upload
     let mediaData = {};
     if (req.file) {
-      // This would be handled by upload middleware
       mediaData = {
-        uri: req.file.path || req.file.filename,
+        uri: req.file.uri,
         filename: req.file.filename,
         type: req.file.mimetype?.startsWith('video/') ? 'video' : 'image',
       };
+    } else {
+      return errorResponse(res, 'Image file is required', 400);
     }
 
     const pin = await Pin.create({
