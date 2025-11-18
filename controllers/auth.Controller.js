@@ -11,6 +11,7 @@ const createRefreshToken = (payload) =>
   jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 
 // --------------------- REGISTER ---------------------
+
 exports.register = async (req, res, next) => {
   try {
     const { username, firstName, lastName, email, password } = req.body;
