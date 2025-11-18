@@ -30,6 +30,12 @@ const pinSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    likers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { timestamps: true }
 );

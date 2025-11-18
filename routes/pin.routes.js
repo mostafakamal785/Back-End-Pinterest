@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import * as pinController from '../controllers/pin.controller.js';
-import authenticateToken from '../middleware/authenticate.js';
+import authMiddleware from '../middleware/authenticate.js';
 
 const router = Router();
 
 // Like a pin
-router.post('/:id/like', authenticateToken, pinController.like);
+router.post('/:id/like', authMiddleware, pinController.like);
 
 // Unlike a pin
-router.post('/:id/unlike', authenticateToken, pinController.unlike);
+router.post('/:id/unlike', authMiddleware, pinController.unlike);
 
 // Get likes for a pin
 router.get('/:id/likes', pinController.getLikes);
